@@ -60,10 +60,12 @@ const quotes = [
 
 const generateTxt = () => {
   const randomIndex = Math.floor(Math.random() * quotes.length);
-  let arr = quotes[randomIndex].split('').map((value)=>{
-    return "<span class='quote-chars'>"+value+"</span>";
+  let arr = quotes[randomIndex].trim().split(/\s+/).map((value)=>{
+    return "<span class='quote-words'>"+value+"</span>";
   });
-  text.innerHTML=arr.join("");
+  text.innerHTML=arr.join(" ");
 }
 
 export { quotes, generateTxt };
+
+// used split(/\s+/) to avoid one or more whitespace

@@ -15,29 +15,41 @@ let time = 60;
 
 
 // Typing
-userInput.addEventListener('input', ()=>{
-  let quoteChars = document.querySelectorAll('.quote-chars');
-  quoteChars = Array.from(quoteChars);
+userInput.addEventListener('input', () => {
+  let quoteWords = Array.from(document.querySelectorAll('.quote-words'));
+  let userWords = userInput.value.split(/\s+/);
 
-  let userInputChars = userInput.value.split('');
+  let completedWordsCount = userInput.value.endsWith(' ')
+    ? userWords.length
+    : userWords.length - 1;
 
-  quoteChars.forEach((char, index) => {
-    if(char.textContent == userInputChars[index]){
-      char.classList.add('success');
+  quoteWords.forEach((word, index) => {
+
+    // ignoring the words' index greater than or equal to completed words
+    if (index >= completedWordsCount) {
+      word.classList.remove('success', 'fail');
+      return;
     }
-    else if (userInputChars[index] == null){
-      char.classList.remove('success');
-      char.classList.remove('fail');
-    }
-    else{
-      if(!char.classList.contains('fail')){
+
+    let typedWord = userWords[index];
+
+    // safety check
+    if (!typedWord) return;
+
+    // completed word check
+    if (word.textContent === typedWord) {
+      word.classList.add('success');
+      word.classList.remove('fail');
+    } else {
+      if (!word.classList.contains('fail')) {
         mistake++;
         mistakes.textContent = mistake;
       }
-      char.classList.add('fail');
+      word.classList.add('fail');
     }
   });
 });
+
 
 
 // start test
